@@ -1,0 +1,5 @@
+Outcome,Moderator,interaction_b,p,n
+competence_trust,gender_male,0.0072,0.8507,86
+competence_trust,is_stem,-0.062,0.2194,86
+perceived_risk,gender_male,-0.0381,0.3932,86
+perceived_risk,is_stem,-0.0086,0.8846,86

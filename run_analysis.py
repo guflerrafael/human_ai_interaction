@@ -24,6 +24,7 @@ from analysis import (
     hypotheses,
     reliability,
     reporting,
+    supplementary,
 )
 
 
@@ -195,10 +196,76 @@ def main() -> None:
     dom.ols_correlations.to_csv(config.TABLES_DIR / "domain_ols_correlations.csv")
 
     # ------------------------------------------------------------------ #
+    # Step 6 — Supplementary / robustness analyses
+    # ------------------------------------------------------------------ #
+    rep.h("Step 6 — Supplementary & robustness analyses (post-hoc)")
+    rep.line("These go beyond the pre-registered protocol to stress-test the "
+             "H1/H2 null results and probe alternative explanations.")
+
+    observed_f2 = {"H1 (Competence Trust)": hyp["H1"].f2_focal,
+                   "H2 (Perceived Risk)": hyp["H2"].f2_focal}
+    supp = supplementary.run_supplementary(df, observed_f2)
+
+    rep.h("6.1 — Are the null results driven by outliers?", level=3)
+    for outcome, res in supp.influence.items():
+        rep.line(f"\n{outcome}: Cook's D threshold = 4/n = {res['cooks_threshold']:.3f}")
+        rep.line("Most influential respondents:")
+        rep.table(res["top_influential"])
+        rep.line("\nSensitivity — refitting H1/H2 after excluding the most "
+                 "influential points (0 = full sample):")
+        rep.table(res["sensitivity"])
+        res["top_influential"].to_csv(config.TABLES_DIR / f"influence_top_{outcome}.csv")
+        res["sensitivity"].to_csv(config.TABLES_DIR / f"influence_sensitivity_{outcome}.csv")
+    rep.line("\n  => Effects stay non-significant (and do not approach the "
+             "predicted sign) regardless of outlier exclusion: the null is robust.")
+
+    rep.h("6.2 — Subjective vs. objective literacy as predictors of trust", level=3)
+    rep.line("Same control set (age, gender, STEM, AI-use frequency) as H1/H2, "
+             "with the focal predictor swapped for each row.")
+    rep.table(supp.alt_predictors)
+    supp.alt_predictors.to_csv(config.TABLES_DIR / "alternative_predictors.csv")
+
+    rep.h("6.3 — Perceived Risk: does trimming weak items rescue the scale?", level=3)
+    rep.table(supp.risk_item_reduction)
+    supp.risk_item_reduction.to_csv(config.TABLES_DIR / "risk_item_reduction.csv")
+    rep.line("\n  => Removing the weakest item(s) does not lift alpha to .70, "
+             "and H2 remains non-significant throughout: the subscale's low "
+             "reliability is not attributable to one bad item.")
+
+    rep.h("6.4 — Trust Differentiation Index (TDI, Appendix B calibration measure)", level=3)
+    tdi = supp.tdi
+    rep.line("TDI = per-respondent SD across the 8 domain-trust items; higher "
+             "TDI means a respondent differentiates trust more sharply across "
+             "contexts (low- vs high-stakes) rather than rating everything alike.")
+    rep.line(str(tdi.descriptives))
+    rep.line(f"\nTDI x OLS: r = {tdi.r_with_ols:+.3f}, p {_p(tdi.p_with_ols)}, n = {tdi.n}")
+    rep.line(f"  => {'More' if tdi.r_with_ols > 0 else 'No more'} literate respondents "
+             f"{'differentiate trust more sharply across domains' if tdi.p_with_ols < 0.05 else 'do not differentiate trust across domains any more than less literate respondents'}.")
+
+    rep.h("6.5 — Power analysis: were H1/H2 simply underpowered?", level=3)
+    pw = supp.power
+    rep.line(f"N = {pw.n}, residual df = {pw.df_resid}, alpha = .05, 1 predictor df.")
+    rep.line(f"- Minimum detectable f2 at 80% power: {pw.min_detectable_f2:.3f}")
+    rep.line(f"- Achieved power to detect the originally PLANNED medium effect "
+             f"(f2 = .15): {pw.power_at_planned_f2:.3f}")
+    for label, power in pw.power_at_observed.items():
+        rep.line(f"- Achieved power to detect the OBSERVED effect in {label}: {power:.3f}")
+    rep.line(f"  => The design had {pw.power_at_planned_f2*100:.0f}% power for the "
+             f"planned effect, so the nulls are not a power failure: the true "
+             f"effects (if any) appear to be much smaller than f2 = .15.")
+
+    rep.h("6.6 — Moderation: does gender or STEM background change the effect?", level=3)
+    rep.table(supp.moderation)
+    supp.moderation.to_csv(config.TABLES_DIR / "moderation.csv")
+    rep.line("\n  => No interaction reaches significance; the (non-)relationship "
+             "between literacy and trust does not differ by gender or STEM "
+             "background in this sample.")
+
+    # ------------------------------------------------------------------ #
     # Figures
     # ------------------------------------------------------------------ #
     rep.h("Figures")
-    figs = reporting.generate_all_figures(prep, corr_r, dom)
+    figs = reporting.generate_all_figures(prep, corr_r, dom, supp.alt_predictors)
     for f in figs:
         rep.line(f"- {f}")
 

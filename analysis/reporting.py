@@ -95,12 +95,39 @@ def fig_domain_means(means: pd.DataFrame) -> str:
     return str(path)
 
 
-def generate_all_figures(prep, corr_r, domain) -> list[str]:
+def fig_subjective_vs_objective(alt_predictors: pd.DataFrame) -> str:
+    """Standardized betas: objective OLS vs. subjective literacy measures."""
+    d = alt_predictors.reset_index()
+    fig, axes = plt.subplots(1, 2, figsize=(11, 4.5), sharey=True)
+    outcomes = [("competence_trust", "Competence Trust"), ("perceived_risk", "Perceived Risk")]
+    for ax, (key, label) in zip(axes, outcomes):
+        sub = d[d["Outcome"] == key]
+        colors = ["crimson" if "Objective" in p else ACCENT for p in sub["Predictor"]]
+        labels = [p.split(":")[-1].split("(")[0].strip() for p in sub["Predictor"]]
+        bars = ax.barh(labels[::-1], sub["beta_std"][::-1], color=colors[::-1])
+        for bar, p in zip(bars, sub["p"][::-1]):
+            marker = "*" if p < 0.05 else ""
+            ax.text(bar.get_width() + (0.01 if bar.get_width() >= 0 else -0.01),
+                    bar.get_y() + bar.get_height() / 2, marker,
+                    va="center", ha="left" if bar.get_width() >= 0 else "right",
+                    color="crimson", fontsize=14)
+        ax.axvline(0, color="black", lw=0.8)
+        ax.set(xlabel="Standardized beta", title=f"-> {label}")
+    fig.suptitle("Objective (red) vs. subjective (blue) literacy as predictors of trust\n(* p < .05)")
+    path = config.FIGURES_DIR / "subjective_vs_objective.png"
+    fig.savefig(path); plt.close(fig)
+    return str(path)
+
+
+def generate_all_figures(prep, corr_r, domain, alt_predictors=None) -> list[str]:
     df = prep.df
-    return [
+    figs = [
         fig_ols_distribution(df),
         fig_overconfidence(df),
         fig_correlation_heatmap(corr_r),
         fig_hypothesis_scatter(df),
         fig_domain_means(domain.means),
     ]
+    if alt_predictors is not None:
+        figs.append(fig_subjective_vs_objective(alt_predictors))
+    return figs

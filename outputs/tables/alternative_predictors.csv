@@ -1,0 +1,9 @@
+Outcome,Predictor,beta_std,p,R2,n
+competence_trust,"Objective literacy (OLS, 0-11)",0.078,0.4668,0.192,86
+competence_trust,Subjective: self-rated AI knowledge (2.5),0.232,0.0296,0.234,86
+competence_trust,Subjective: self-rated AI confidence (2.3),0.199,0.0908,0.215,86
+competence_trust,Overconfidence gap (self-estimate - OLS),0.039,0.7111,0.188,86
+perceived_risk,"Objective literacy (OLS, 0-11)",-0.02,0.8608,0.105,86
+perceived_risk,Subjective: self-rated AI knowledge (2.5),-0.157,0.1633,0.126,86
+perceived_risk,Subjective: self-rated AI confidence (2.3),-0.319,0.0089,0.178,86
+perceived_risk,Overconfidence gap (self-estimate - OLS),0.011,0.9217,0.105,86

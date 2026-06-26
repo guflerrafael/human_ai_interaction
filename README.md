@@ -57,6 +57,12 @@ outputs/
 5. **Domain trust (exploratory)** — per-domain means, high- vs low-stakes paired
    t-test, Bonferroni-corrected targeted comparisons, and OLS × domain
    correlations.
+6. **Supplementary / robustness (post-hoc)** — stress-tests of the H1/H2 nulls:
+   Cook's-distance influence diagnostics with leave-out refits, subjective vs.
+   objective literacy as competing predictors, Perceived-Risk item-trimming,
+   the Trust Differentiation Index (Appendix B calibration measure), a power
+   analysis (was the design even capable of detecting the planned effect?),
+   and gender/STEM moderation checks.
 
 ## Decisions & deviations from the written protocol
 These were the underspecified or conflicting points, resolved deliberately and

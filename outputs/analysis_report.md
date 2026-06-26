@@ -174,12 +174,123 @@ Personal advice / life    high   -0.043 0.695
 News & current events     high   -0.216 0.044
 ```
 
+## Step 6 — Supplementary & robustness analyses (post-hoc)
+These go beyond the pre-registered protocol to stress-test the H1/H2 null results and probe alternative explanations.
+
+### 6.1 — Are the null results driven by outliers?
+
+competence_trust: Cook's D threshold = 4/n = 0.047
+Most influential respondents:
+```
+    cooks_d  competence_trust    OLS    age  gender_male  is_stem  ai_frequency
+67    0.292             3.833  2.000 50.000        0.000    1.000         5.000
+34    0.105             4.500 10.000 24.000        1.000    0.000         4.000
+0     0.101             1.833  0.000 23.000        1.000    0.000         5.000
+55    0.079             1.833  5.000 24.000        0.000    0.000         1.000
+19    0.069             1.500  4.000 28.000        0.000    0.000         3.000
+```
+
+Sensitivity — refitting H1/H2 after excluding the most influential points (0 = full sample):
+```
+          beta_OLS     p    R2   n
+excluded                          
+0            0.014 0.467 0.192  86
+1            0.024 0.217 0.236  85
+3            0.005 0.791 0.263  83
+5            0.009 0.607 0.210  81
+```
+
+perceived_risk: Cook's D threshold = 4/n = 0.047
+Most influential respondents:
+```
+    cooks_d  perceived_risk    OLS    age  gender_male  is_stem  ai_frequency
+66    0.492           2.000  2.000 59.000        0.000    0.000         1.000
+41    0.146           5.000 10.000 29.000        0.000    1.000         2.000
+45    0.130           3.800  6.000 46.000        1.000    1.000         5.000
+1     0.112           2.200  3.000 25.000        1.000    0.000         2.000
+81    0.049           2.400  4.000 19.000        0.000    1.000         3.000
+```
+
+Sensitivity — refitting H1/H2 after excluding the most influential points (0 = full sample):
+```
+          beta_OLS     p    R2   n
+excluded                          
+0           -0.004 0.861 0.105  86
+1           -0.009 0.686 0.118  85
+3           -0.015 0.504 0.110  83
+5           -0.019 0.356 0.192  81
+```
+
+  => Effects stay non-significant (and do not approach the predicted sign) regardless of outlier exclusion: the null is robust.
+
+### 6.2 — Subjective vs. objective literacy as predictors of trust
+Same control set (age, gender, STEM, AI-use frequency) as H1/H2, with the focal predictor swapped for each row.
+```
+                                                             beta_std     p    R2   n
+Outcome          Predictor                                                           
+competence_trust Objective literacy (OLS, 0-11)                 0.078 0.467 0.192  86
+                 Subjective: self-rated AI knowledge (2.5)      0.232 0.030 0.234  86
+                 Subjective: self-rated AI confidence (2.3)     0.199 0.091 0.215  86
+                 Overconfidence gap (self-estimate - OLS)       0.039 0.711 0.188  86
+perceived_risk   Objective literacy (OLS, 0-11)                -0.020 0.861 0.105  86
+                 Subjective: self-rated AI knowledge (2.5)     -0.157 0.163 0.126  86
+                 Subjective: self-rated AI confidence (2.3)    -0.319 0.009 0.178  86
+                 Overconfidence gap (self-estimate - OLS)       0.011 0.922 0.105  86
+```
+
+### 6.3 — Perceived Risk: does trimming weak items rescue the scale?
+```
+                            k items  alpha  H2 beta_std (OLS)     p
+Dropped items                                                      
+(none — full 5-item scale)        5  0.647             -0.020 0.861
+4.7                               4  0.632             -0.053 0.642
+4.7, 4.11                         3  0.599             -0.073 0.528
+```
+
+  => Removing the weakest item(s) does not lift alpha to .70, and H2 remains non-significant throughout: the subscale's low reliability is not attributable to one bad item.
+
+### 6.4 — Trust Differentiation Index (TDI, Appendix B calibration measure)
+TDI = per-respondent SD across the 8 domain-trust items; higher TDI means a respondent differentiates trust more sharply across contexts (low- vs high-stakes) rather than rating everything alike.
+count    87.000
+mean      0.970
+std       0.344
+min       0.000
+25%       0.756
+50%       0.991
+75%       1.188
+max       1.808
+dtype: float64
+
+TDI x OLS: r = +0.095, p = 0.381, n = 87
+  => More literate respondents do not differentiate trust across domains any more than less literate respondents.
+
+### 6.5 — Power analysis: were H1/H2 simply underpowered?
+N = 86, residual df = 80, alpha = .05, 1 predictor df.
+- Minimum detectable f2 at 80% power: 0.098
+- Achieved power to detect the originally PLANNED medium effect (f2 = .15): 0.934
+- Achieved power to detect the OBSERVED effect in H1 (Competence Trust): 0.113
+- Achieved power to detect the OBSERVED effect in H2 (Perceived Risk): 0.054
+  => The design had 93% power for the planned effect, so the nulls are not a power failure: the true effects (if any) appear to be much smaller than f2 = .15.
+
+### 6.6 — Moderation: does gender or STEM background change the effect?
+```
+                              interaction_b     p   n
+Outcome          Moderator                           
+competence_trust gender_male          0.007 0.851  86
+                 is_stem             -0.062 0.219  86
+perceived_risk   gender_male         -0.038 0.393  86
+                 is_stem             -0.009 0.885  86
+```
+
+  => No interaction reaches significance; the (non-)relationship between literacy and trust does not differ by gender or STEM background in this sample.
+
 ## Figures
 - /Users/rafaelgufler/Documents/development/human_ai_interaction/outputs/figures/ols_distribution.png
 - /Users/rafaelgufler/Documents/development/human_ai_interaction/outputs/figures/overconfidence_gap.png
 - /Users/rafaelgufler/Documents/development/human_ai_interaction/outputs/figures/correlation_heatmap.png
 - /Users/rafaelgufler/Documents/development/human_ai_interaction/outputs/figures/hypothesis_scatter.png
 - /Users/rafaelgufler/Documents/development/human_ai_interaction/outputs/figures/domain_trust.png
+- /Users/rafaelgufler/Documents/development/human_ai_interaction/outputs/figures/subjective_vs_objective.png
 
 ## Summary of hypothesis tests
 - H1: beta = +0.078, p = 0.467, f² = 0.007 -> NOT supported
