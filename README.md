@@ -1,8 +1,7 @@
 # AI Literacy & Trust Calibration — Analysis
 
 Statistical analysis pipeline for the study *"The Role of AI Literacy in Trust
-Calibration toward AI-Generated Content."* It implements the four-step analysis
-protocol from the project presentation (plus the exploratory domain analysis).
+Calibration toward AI-Generated Content."*
 
 ## Research question & hypotheses
 Does **objective AI literacy** (OLS) predict **trust in AI tools** among
