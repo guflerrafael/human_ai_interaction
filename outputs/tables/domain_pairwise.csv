@@ -1,0 +1,5 @@
+High-stakes,Low-stakes,Mean diff,t,p_raw,p_bonferroni,sig (a=.05)
+Health-related,General knowledge,-1.379,-11.151,0.0,0.0,True
+Personal advice / life,General knowledge,-1.655,-12.478,0.0,0.0,True
+Health-related,Programming / technical,-1.425,-11.584,0.0,0.0,True
+Personal advice / life,Programming / technical,-1.701,-11.553,0.0,0.0,True

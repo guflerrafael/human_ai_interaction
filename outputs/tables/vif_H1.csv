@@ -1,0 +1,6 @@
+predictor,VIF
+OLS,1.13
+age,1.064
+gender_male,1.146
+is_stem,1.125
+ai_frequency,1.149

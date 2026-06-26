@@ -1,0 +1,7 @@
+,OLS,competence_trust,perceived_risk,age,ai_frequency,self_rated_knowledge
+OLS,0.0,0.102,0.5883,0.9164,0.0521,0.0
+competence_trust,0.102,0.0,0.093,0.0813,0.0174,0.0015
+perceived_risk,0.5883,0.093,0.0,0.1215,0.025,0.1017
+age,0.9164,0.0813,0.1215,0.0,0.1676,0.4273
+ai_frequency,0.0521,0.0174,0.025,0.1676,0.0,0.0349
+self_rated_knowledge,0.0,0.0015,0.1017,0.4273,0.0349,0.0

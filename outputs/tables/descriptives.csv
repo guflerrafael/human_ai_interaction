@@ -1,0 +1,12 @@
+Variable,N,Mean,SD,Min,Max,Skew
+Age (years),86,25.523,6.361,19.0,59.0,3.018
+Objective Literacy Score (0-11),87,6.069,3.223,0.0,11.0,0.026
+Self-estimated score (0-11),87,6.069,3.176,0.0,11.0,-0.28
+Overconfidence gap (est - OLS),87,0.0,2.135,-5.0,8.0,0.8
+Competence Trust (1-5),87,3.182,0.574,1.5,4.5,-0.321
+Perceived Risk (1-5),87,3.138,0.639,1.6,5.0,0.16
+Self-rated confidence (1-5),87,3.621,0.825,2.0,5.0,-0.578
+Self-rated knowledge (1-5),87,3.034,1.072,1.0,5.0,-0.012
+AI use frequency (1-6),87,4.713,1.238,1.0,6.0,-1.068
+Domain trust: low-stakes (1-5),87,3.583,0.547,2.0,5.0,-0.404
+Domain trust: high-stakes (1-5),87,2.523,0.706,1.0,4.25,0.237

@@ -1,0 +1,9 @@
+Domain,Stakes,r (OLS),p
+General knowledge,low,-0.052,0.632
+Learning / study,low,0.228,0.0333
+Academic writing,high,0.214,0.0463
+Programming / technical,low,0.316,0.0028
+Professional / work,low,0.164,0.1285
+Health-related,high,0.096,0.3748
+Personal advice / life,high,-0.043,0.6954
+News & current events,high,-0.216,0.0445
